@@ -55,7 +55,7 @@ sudo sed -i -e "s/^\$settings\['hash_salt'\].*/\$settings\['hash_salt'\] = '$DRU
 
 #== Extract static files
 if [[ $(mysql -h$DB_HOST -P$DB_PORT -u$DB_USER -p$DB_PASSWORD $DB_NAME -e "show tables;") == '' ]]; then
-  if [[ -f "$APP_ROOT/.devpanel/dumps/files.tgz" ]]; then
+  if [[ -f "$APP_ROOT/.devpanel/dumps/files.tgz" ]]; then    
     echo  'Extract static files ...'
     sudo mkdir -p $STATIC_FILES_PATH
     sudo tar xzf "$APP_ROOT/.devpanel/dumps/files.tgz" -C $STATIC_FILES_PATH
