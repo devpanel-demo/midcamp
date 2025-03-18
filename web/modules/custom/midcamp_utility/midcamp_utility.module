@@ -1,0 +1,180 @@
+<?php
+
+/**
+ * @file
+ * Contains midcamp_utility.module.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\views\ViewExecutable;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\webform\WebformSubmissionInterface;
+
+
+/**
+ * Implements hook_help().
+ */
+function midcamp_utility_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the midcamp_utility module.
+    case 'help.page.midcamp_utility':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Misc modifications and helpers') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function midcamp_utility_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+  /*
+   * Ensure the Event Venue, Sponsors views get the correct argument when contextual filters not available.
+   * Set `$event_default` to the current active event term ID.
+   */
+  $event_default = '536';
+  $event_views = ['event_venue', 'event_sponsors'];
+  if (in_array($view->id(), $event_views)) {
+    // Determine what type of page we are on.
+    $current_route = \Drupal::routeMatch();
+    // Views page condition where args may not be present.
+    if ($current_route->getParameter('view_id')) {
+      // Check the first path part for a value matching an Event term alias.
+      $current_uri = \Drupal::request()->getRequestUri();
+      $parts = explode('/', $current_uri);
+      // Get the term ID from the path
+      $term_path = \Drupal::service('path_alias.manager')->getPathByAlias('/' . $parts[1]);
+      $term_args = explode('/', $term_path);
+
+      // If we've found a taxonomy term path pass the term ID.
+      if ($term_args[1] == 'taxonomy') {
+        $tid = end($term_args);
+        $view->setArguments([$tid]);
+      } else {
+        // Otherwise default to the 2021 tid.
+        $view->setArguments([$event_default]);
+      }
+      return;
+    }
+    // Node condition where `field_event` values are not present.
+    if ($current_route->getParameter('node')) {
+      $node = $current_route->getParameter('node');
+      if ($node->hasField('field_event') && $node->get('field_event')->isEmpty()) {
+        $view->setArguments([$event_default]);
+        return;
+      }
+    }
+    // Taxonomy condition for non-event terms.
+    if ($current_route->getParameter('taxonomy_term')) {
+      $term = $current_route->getParameter('taxonomy_term');
+      if ($term->bundle() != 'event') {
+        $view->setArguments([$event_default]);
+        return;
+      }
+    }
+    // User routes.
+    // @todo - do this a better way.
+    if ($current_route->getParameter('user')) {
+      $view->setArguments([$event_default]);
+      return;
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_view_mode_alter().
+ */
+function midcamp_utility_entity_view_mode_alter(&$view_mode, Drupal\Core\Entity\EntityInterface $entity, $context) {
+  // Change view modes for `location` terms referenced on Topic nodes.
+  if ($entity->getEntityTypeId() == 'taxonomy_term'
+    && $entity->bundle() == 'location' && $view_mode == 'default') {
+    /** @var \Drupal\node\Entity\Node $parent_entity */
+    if (isset($entity->_referringItem) && $parent_entity = $entity->_referringItem->getParent()->getEntity()) {
+      $event = $parent_entity->get('field_event')->getValue();
+      $event = reset($event);
+      // Check if we are on a 2020 or 2021 Topic, and set the view mode
+      // appropriately.
+      $virtual_event_tids = ['143', '234'];
+      if (in_array($event['target_id'], $virtual_event_tids)) {
+        $view_mode = 'topic_page';
+      }
+    }
+  }
+}
+
+// snippet: https://stefvanlooveren.me/node/75
+/**
+ * Implements hook_block_access().
+ */
+function midcamp_utility_block_access(Block $block, $operation, AccountInterface $account) {
+  // Determine what type of page we are on.
+  $current_route = \Drupal::routeMatch();
+
+  // If we're viewing the 'Session Feedback' block...
+  if ($operation == 'view' && $block->getPluginId() == 'views_block:session_feedback-block_1') {
+
+    // Always provide access if the user is admin.
+    if (in_array('administrator', $account->getRoles())) {
+      return AccessResult::allowed();
+    }
+    // Otherwise, check to see if we're on a node...
+    elseif ($current_route->getParameter('node')) {
+      $node = $current_route->getParameter('node');
+
+      // And the node has field_people (i.e. speakers)...
+      if ($node->hasField('field_people') && !$node->field_people->isEmpty()) {
+        $speakers = explode(', ', $node->field_people->getString());
+
+        // And the current user matches one of the speakers.
+        if (in_array($account->id(), $speakers)) {
+          // If so, show the block.
+          return AccessResult::allowed()->addCacheableDependency($account);
+        }
+      }
+    }
+
+    // Otherwise hide the block.
+    return AccessResult::forbidden();
+  }
+  return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_webform_submission_access().
+ */
+function midcamp_utility_webform_submission_access(WebformSubmissionInterface $webform_submission, $operation, AccountInterface $account) {
+  // Do not adjust access for any other webforms.
+  if ($webform_submission->getWebform()->id() != 'session_feedback') {
+    return AccessResult::neutral();
+  }
+
+  // Determine what type of page we are on.
+  $current_route = \Drupal::routeMatch();
+
+  // Always provide access if the user is admin.
+  if (in_array('administrator', $account->getRoles())) {
+    return AccessResult::allowed();
+  }
+  // Otherwise, check to see if we're on a node...
+  elseif ($current_route->getParameter('node')) {
+    $node = $current_route->getParameter('node');
+
+    // And the node has field_people (i.e. speakers)...
+    if ($node->hasField('field_people') && !$node->field_people->isEmpty()) {
+      $speakers = explode(', ', $node->field_people->getString());
+
+      // And the current user matches one of the speakers.
+      if (in_array($account->id(), $speakers)) {
+        // If so, show the results.
+        return AccessResult::allowed()->addCacheableDependency($account);
+      }
+    }
+  }
+
+  return AccessResult::neutral();
+}

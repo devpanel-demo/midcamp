@@ -1,0 +1,30 @@
+uuid: f6dbc514-dea8-41c1-a592-79b84b74b48b
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.midcamp-2020-navigation
+  module:
+    - system
+  theme:
+    - hatter_2019
+id: hatter_2019_midcamp2020navigation
+theme: hatter_2019
+region: header
+weight: 0
+provider: null
+plugin: 'system_menu_block:midcamp-2020-navigation'
+settings:
+  id: 'system_menu_block:midcamp-2020-navigation'
+  label: 'Midcamp 2020 Navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 2
+  expand_all_items: true
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/2020/*\r\n/2020"

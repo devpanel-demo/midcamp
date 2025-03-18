@@ -1,0 +1,11 @@
+{
+    "name": "brian-clement/tito",
+    "type": "drupal-module",
+    "description": "Tito",
+    "keywords": ["Drupal"],
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/tito",
+        "source": "http://cgit.drupalcode.org/tito"
+    }
+}

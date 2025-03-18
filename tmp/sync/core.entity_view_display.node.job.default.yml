@@ -1,0 +1,81 @@
+uuid: cc19b57c-59f4-4a53-b787-45f62a4f778a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.job.field_event
+    - field.field.node.job.field_job_description
+    - field.field.node.job.field_job_link
+    - field.field.node.job.field_job_location
+    - field.field.node.job.field_job_skill_level
+    - field.field.node.job.field_job_type
+    - field.field.node.job.field_meta_tags
+    - field.field.node.job.field_sponsor_company
+    - node.type.job
+  module:
+    - link
+    - options
+    - text
+    - user
+id: node.job.default
+targetEntityType: node
+bundle: job
+mode: default
+content:
+  field_job_description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_job_link:
+    type: link
+    label: inline
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_job_location:
+    type: string
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_job_skill_level:
+    type: list_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_job_type:
+    type: list_default
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_sponsor_company:
+    type: entity_reference_label
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+hidden:
+  field_event: true
+  field_meta_tags: true

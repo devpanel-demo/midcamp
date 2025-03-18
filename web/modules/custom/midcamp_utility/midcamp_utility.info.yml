@@ -1,0 +1,5 @@
+name: 'Midcamp Utility'
+type: module
+description: 'Misc modifications and helpers'
+core_version_requirement: ^10 || ^11
+package: 'Midcamp'

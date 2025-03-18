@@ -1,0 +1,36 @@
+uuid: 575c158e-8a95-4955-ba0c-6b2fc8615f77
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.article.field_article_news
+    - field.field.node.article.field_article_paragraphs
+    - field.field.node.article.field_article_summary
+    - field.field.node.article.field_event
+    - field.field.node.article.field_planet
+    - field.field.node.article.field_tags
+    - node.type.article
+  module:
+    - user
+_core:
+  default_config_hash: U8ghxJXn8JE2p6Q2wLpPWAxpz4r_8crL1LxtapSrHAE
+id: node.article.teaser
+targetEntityType: node
+bundle: article
+mode: teaser
+content:
+  field_article_summary:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_article_news: true
+  field_article_paragraphs: true
+  field_event: true
+  field_planet: true
+  field_tags: true
+  links: true

@@ -1,0 +1,24 @@
+uuid: dc151103-9167-4b4b-a3de-1288166708f4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_do_profile
+  module:
+    - link
+    - user
+id: user.user.field_do_profile
+field_name: field_do_profile
+entity_type: user
+bundle: user
+label: 'Drupal.org Profile'
+description: "https://drupal.org/u/[username] or https://www.drupal.org/user/[uid number]\r\n\r\nWe require all users to register for a free Drupal.org username in order to properly credit your contribution. Please <a href=\"https://www.drupal.org/user/register\">register a new account on Drupal.org</a> if you do not have one before starting the session submission process.”"
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 16
+  title_predefined: ''
+field_type: link

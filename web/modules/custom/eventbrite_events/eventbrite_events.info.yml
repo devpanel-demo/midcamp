@@ -1,0 +1,7 @@
+name: 'Eventbrite Events'
+type: module
+description: 'Add event and attendee entities from Eventbrite'
+core_version_requirement: ^10 || ^11
+package: 'Eventbrite Events'
+dependencies:
+  - drupal:node

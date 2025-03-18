@@ -1,0 +1,55 @@
+uuid: c8cfbf2e-b789-45a9-9c3a-36d9fc81b79e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_paragraphs
+    - node.type.article
+    - paragraphs.paragraphs_type.contact_form
+    - paragraphs.paragraphs_type.paragraphs_columns_even
+    - paragraphs.paragraphs_type.paragraphs_columns_uneven_2
+    - paragraphs.paragraphs_type.paragraphs_image
+    - paragraphs.paragraphs_type.paragraphs_text
+    - paragraphs.paragraphs_type.view
+  module:
+    - entity_reference_revisions
+id: node.article.field_article_paragraphs
+field_name: field_article_paragraphs
+entity_type: node
+bundle: article
+label: Paragraphs
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      paragraphs_text: paragraphs_text
+      paragraphs_image: paragraphs_image
+      paragraphs_columns_even: paragraphs_columns_even
+      paragraphs_columns_uneven_2: paragraphs_columns_uneven_2
+      contact_form: contact_form
+      view: view
+    target_bundles_drag_drop:
+      contact_form:
+        weight: -9
+        enabled: true
+      paragraphs_columns_even:
+        weight: -11
+        enabled: true
+      paragraphs_columns_uneven_2:
+        weight: -10
+        enabled: true
+      paragraphs_image:
+        weight: -12
+        enabled: true
+      paragraphs_text:
+        weight: -13
+        enabled: true
+      view:
+        weight: -8
+        enabled: true
+field_type: entity_reference_revisions

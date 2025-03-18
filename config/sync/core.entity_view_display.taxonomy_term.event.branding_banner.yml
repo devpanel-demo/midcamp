@@ -1,0 +1,77 @@
+uuid: 5a104020-5f36-410f-8fdd-4c752c5806d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.taxonomy_term.branding_banner
+    - field.field.taxonomy_term.event.field_banner_cta_anonymous
+    - field.field.taxonomy_term.event.field_banner_cta_authenticated
+    - field.field.taxonomy_term.event.field_date
+    - field.field.taxonomy_term.event.field_date_has_time
+    - field.field.taxonomy_term.event.field_event_id
+    - field.field.taxonomy_term.event.field_event_status
+    - field.field.taxonomy_term.event.field_image
+    - field.field.taxonomy_term.event.field_social_media
+    - field.field.taxonomy_term.event.field_tito_slug
+    - taxonomy.vocabulary.event
+  module:
+    - datetime_range
+    - image
+    - link
+id: taxonomy_term.event.branding_banner
+targetEntityType: taxonomy_term
+bundle: event
+mode: branding_banner
+content:
+  field_banner_cta_anonymous:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_banner_cta_authenticated:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_date:
+    type: daterange_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: long
+      separator: '-'
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  description: true
+  field_date_has_time: true
+  field_event_id: true
+  field_event_status: true
+  field_social_media: true
+  field_tito_slug: true

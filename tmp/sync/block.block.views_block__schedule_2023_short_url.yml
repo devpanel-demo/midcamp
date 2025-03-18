@@ -1,0 +1,33 @@
+uuid: 5a395cfc-364e-4c47-bfb5-0d53474bd001
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.schedule_2023
+  module:
+    - node
+    - views
+  theme:
+    - hatter
+id: views_block__schedule_2023_short_url
+theme: hatter
+region: content
+weight: -11
+provider: null
+plugin: 'views_block:schedule_2023-short_url'
+settings:
+  id: 'views_block:schedule_2023-short_url'
+  label: ''
+  label_display: '0'
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      topic: topic

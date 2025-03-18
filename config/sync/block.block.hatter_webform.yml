@@ -1,0 +1,32 @@
+uuid: 3f7528fd-5c66-41eb-a583-c661ab7b58ce
+langcode: en
+status: true
+dependencies:
+  config:
+    - webform.webform.lightning_talk_sign_up
+  module:
+    - system
+    - webform
+  theme:
+    - hatter
+id: hatter_webform
+theme: hatter
+region: content
+weight: -5
+provider: null
+plugin: webform_block
+settings:
+  id: webform_block
+  label: 'Lightning Talk Sign Up'
+  label_display: visible
+  provider: webform
+  webform_id: lightning_talk_sign_up
+  default_data: ''
+  redirect: false
+  lazy: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/2018/topic-proposal/lightning-talks\r\n/2019/topic-proposal/lightning-talks\r\n/node/6965\r\n/2024/topic-proposal/lightning-talks"

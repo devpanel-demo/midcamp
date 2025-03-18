@@ -1,0 +1,44 @@
+uuid: 605878ee-f774-4d41-810a-6e03c8ca53e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.article.field_article_news
+    - field.field.node.article.field_article_paragraphs
+    - field.field.node.article.field_article_summary
+    - field.field.node.article.field_event
+    - field.field.node.article.field_meta_tags
+    - field.field.node.article.field_planet
+    - field.field.node.article.field_tags
+    - node.type.article
+  module:
+    - entity_reference_revisions
+    - user
+_core:
+  default_config_hash: JtAg_-waIt1quMtdDtHIaXJMxvTuSmxW7bWyO6Zd68E
+id: node.article.default
+targetEntityType: node
+bundle: article
+mode: default
+content:
+  field_article_paragraphs:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_article_news: true
+  field_article_summary: true
+  field_event: true
+  field_meta_tags: true
+  field_planet: true
+  field_tags: true

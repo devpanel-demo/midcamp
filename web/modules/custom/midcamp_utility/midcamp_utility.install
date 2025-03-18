@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * @file
+ * Contains install and update hooks for the midcamp_utility module.
+ */
+
+/**
+ * Kill workflow states and workflows with fire.
+ *
+ * Workflows is gross. It doesn't let us remove a workflow while there is
+ * content using a workflow, and doesn't let us delete a moderation state while
+ * content is in said state, and won't let us uninstall the module unless both
+ * of the above are resolved...
+ *
+ * This is a quick and dirty way to resolve those problems. Surely there is a
+ * better way, but it did not immediately reveal itself to me. I am sorry.
+ */
+function midcamp_utility_update_8001() {
+  // Remove moderation states from all content.
+  \Drupal::database()
+    ->delete('content_moderation_state_field_data')
+    ->execute();
+
+  // Remove all moderation states.
+  \Drupal::database()
+    ->delete('content_moderation_state')
+    ->execute();
+
+}
+
+/**
+ * Switch from 'config_installer' profile to 'minimal'.
+ */
+function midcamp_utility_update_8901(&$sandbox) {
+  // Set profile entry.
+  $config = \Drupal::configFactory()->getEditable('core.extension');
+  $config->set('profile', 'minimal');
+
+  // Remove old profile from active config.
+  $modules = $config->get('module');
+  unset($modules['config_installer']);
+  $config->set('module', $modules);
+  $config->save();
+  drupal_flush_all_caches();
+
+  // Install new profile.
+  \Drupal::service('module_installer')->install(['minimal']);
+
+  // Uninstall old profile.
+  \Drupal::service('module_installer')->uninstall(['config_installer']);
+
+  // Remove schema entry for old_profile.
+  $schema = \Drupal::keyValue('system.schema');
+  if ($schema->get('config_installer')) {
+    $schema->delete('config_installer');
+  }
+  drupal_flush_all_caches();
+}
+
+/**
+ * Update obsolete entity action plugins to new definitions (workaround).
+ *
+ * See https://www.drupal.org/project/drupal/issues/3045570
+ *
+ * Implements hook_update_N().
+ */
+function midcamp_utility_update_8902() {
+  $old_new_action_id_map = [
+    'node_publish_action' => 'entity:publish_action:node',
+    'node_unpublish_action' => 'entity:unpublish_action:node',
+    'node_save_action' => 'entity:save_action:node',
+    'node_delete_action' => 'entity:delete_action:node',
+    'comment_publish_action' => 'entity:publish_action:comment',
+    'comment_unpublish_action' => 'entity:unpublish_action:comment',
+    'comment_save_action' => 'entity:save_action:comment',
+    'comment_delete_action' => 'entity:delete_action:comment',
+  ];
+
+  /** @var \Drupal\system\Entity\Action[] $actions */
+  $actions = \Drupal::entityTypeManager()->getStorage('action')->loadMultiple();
+  foreach ($actions as $action) {
+    if (isset($old_new_action_id_map[$action->id()])) {
+      $action->setPlugin($old_new_action_id_map[$action->id()]);
+      $action->save();
+    }
+  }
+}

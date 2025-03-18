@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
+langcode: en
+uuid: 4e8b0d7f-53e9-45f1-9a7c-7188d45194bd
+name: MidCamp
+mail: info@midcamp.org
+slogan: 'May 20-22, 2025'
+page:
+  403: ''
+  404: ''
+  front: /taxonomy/term/536
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: en
+mail_notification: ''

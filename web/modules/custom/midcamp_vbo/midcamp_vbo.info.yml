@@ -1,0 +1,4 @@
+name: Midcamp VBO
+description: Provide custom bulk operations.
+core_version_requirement: ^9 || ^11
+type: module

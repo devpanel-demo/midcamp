@@ -1,0 +1,30 @@
+uuid: 7883d594-20a8-401d-980c-c04c6f3c9df1
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.midcamp-2021-navigation
+  module:
+    - system
+  theme:
+    - hatter
+id: midcamp2021navigation_2
+theme: hatter
+region: header
+weight: -20
+provider: null
+plugin: 'system_menu_block:midcamp-2021-navigation'
+settings:
+  id: 'system_menu_block:midcamp-2021-navigation'
+  label: 'Midcamp 2021 Navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 2
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/2021/*\r\n/2021"

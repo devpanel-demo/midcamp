@@ -1,0 +1,10 @@
+uuid: 869a0de2-57a0-47fc-9d05-3e38356e2f83
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Q2Ra3jfoIVk0f3SjxJX61byRQFVBAbpzYDQOiY-kno8
+id: main
+label: 'Midcamp 2018 Navigation'
+description: 'Primary navigation for Midcamp 2018 content'
+locked: true
