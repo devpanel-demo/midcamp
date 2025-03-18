@@ -1,9 +1,0 @@
-uuid: 3fffb265-4ce1-4fae-9216-3b82f043155a
-langcode: en
-status: true
-dependencies: {  }
-id: paragraphs_columns_uneven_2
-label: 'Columns (Two Uneven)'
-icon_uuid: null
-description: null
-behavior_plugins: {  }
